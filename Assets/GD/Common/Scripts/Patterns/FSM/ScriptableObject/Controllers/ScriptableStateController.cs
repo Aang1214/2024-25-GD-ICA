@@ -1,16 +1,29 @@
-﻿using GD.FSM.Simple;
-using GD.Predicates;
+﻿using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine;
 
 namespace GD.FSM.SO
 {
-    public class ScriptableStateController
+    public class ScriptableStateController : MonoBehaviour
     {
-        public Blackboard blackboard;
-        public Animator animator;
-        public NavMeshAgent agent;
+        [SerializeField]
+        private Blackboard blackboard;
 
-        //TODO: Finish this!
+        [SerializeField]
+        private Animator animator;
+
+        [SerializeField]
+        private NavMeshAgent agent;
+
+        private ScriptableStateMachine stateMachine;
+
+        public Blackboard Blackboard { get => blackboard; }
+        public Animator Animator { get => animator; }
+        public NavMeshAgent Agent { get => agent; }
+        public ScriptableStateMachine ScriptableStateMachine { get => stateMachine; }
+
+        private void Awake()
+        {
+            stateMachine = GetComponent<ScriptableStateMachine>();
+        }
     }
 }

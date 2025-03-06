@@ -12,9 +12,13 @@ namespace GD.Types
     {
         #region Fields
 
+        [FoldoutGroup("Info", expanded: false)]
+        [ShowInInspector, Tooltip("Unique identifier for this object."), ReadOnly]
+        private string uniqueID;
+
         [SerializeField]
         [ContextMenuItem("Reset Name", "ResetName")]
-        [FoldoutGroup("Info", expanded: false)]
+        [FoldoutGroup("Info")]
         private new string name = string.Empty;
 
         [SerializeField]
@@ -27,6 +31,8 @@ namespace GD.Types
 
         #region Properties
 
+        public string UniqueID { get => uniqueID; }
+
         public string Name { get => name; set => name = value; }
 
         public string Description { get => description; set => description = value; }
@@ -34,6 +40,20 @@ namespace GD.Types
         #endregion Properties
 
         #region Core Methods
+
+        /// <summary>
+        /// Automatically generates a unique ID using a GUID if one isn't already set.
+        /// </summary>
+        private void OnValidate()
+        {
+            if (string.IsNullOrEmpty(uniqueID))
+            {
+                uniqueID = System.Guid.NewGuid().ToString();
+#if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(this);
+#endif
+            }
+        }
 
         /// <summary>
         /// Resets the name to an empty string
